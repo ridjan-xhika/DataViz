@@ -3,7 +3,7 @@ from mysql.connector import Error
 from typing import Optional, List, Dict
 
 class DatabaseConnection:
-    def __init__(self, host: str = "localhost", user: str = "root", password: str = "", database: str = "covid19"):
+    def __init__(self, host: str = "localhost", user: str = "root", password: str = "root", database: str = "covid19"):
         self.host = host
         self.user = user
         self.password = password
@@ -59,7 +59,10 @@ class DatabaseConnection:
 
 def init_database():
     db = DatabaseConnection()
-    db.connect()
+    if not db.connect():
+        print("Failed to connect to MySQL database")
+        return False
+    
     cursor = db.connection.cursor()
     
     cursor.execute("""
@@ -80,3 +83,4 @@ def init_database():
     db.connection.commit()
     cursor.close()
     db.disconnect()
+    return True
