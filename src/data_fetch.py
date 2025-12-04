@@ -1,4 +1,3 @@
-import os
 from pathlib import Path
 import requests
 import pandas as pd
