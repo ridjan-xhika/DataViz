@@ -16,12 +16,14 @@ def main():
     if choice == "1":
         sync_covid_data()
     elif choice == "2":
-        print("Starting dashboard on http://127.0.0.1:8050/")
-        app.run_server(debug=True)
+        print("\nStarting dashboard on http://127.0.0.1:8050/")
+        print("Press Ctrl+C to stop the server\n")
+        app.run(debug=False)
     elif choice == "3":
         sync_covid_data()
         print("\nStarting dashboard on http://127.0.0.1:8050/")
-        app.run_server(debug=True)
+        print("Press Ctrl+C to stop the server\n")
+        app.run(debug=False)
     elif choice == "4":
         print("Exiting...")
         sys.exit(0)
