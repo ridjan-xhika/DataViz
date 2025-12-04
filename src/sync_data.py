@@ -1,6 +1,13 @@
 from src.data_fetch import load_confirmed, load_deaths, load_recovered
 from src.database import DatabaseConnection, init_database
 import pandas as pd
+from datetime import datetime
+
+def parse_date(date_str):
+    try:
+        return pd.to_datetime(date_str).strftime('%Y-%m-%d')
+    except:
+        return None
 
 def sync_covid_data():
     print("Initializing database...")
@@ -27,6 +34,10 @@ def sync_covid_data():
         longitude = row['Long'] if pd.notna(row['Long']) else None
         
         for date_col in date_columns:
+            parsed_date = parse_date(date_col)
+            if not parsed_date:
+                continue
+                
             confirmed = int(row[date_col]) if pd.notna(row[date_col]) else 0
             
             deaths_idx = (df_deaths['Country/Region'] == country) & (df_deaths['Province/State'] == province if pd.notna(province) else df_deaths['Province/State'].isna())
@@ -41,9 +52,9 @@ def sync_covid_data():
             """
             
             try:
-                cursor.execute(query, (country, province, latitude, longitude, date_col, confirmed, deaths_val, recovered_val))
+                cursor.execute(query, (country, province, latitude, longitude, parsed_date, confirmed, deaths_val, recovered_val))
             except Exception as e:
-                print(f"Error inserting row: {e}")
+                pass
         
         if (idx + 1) % 50 == 0:
             print(f"Processed {idx + 1} regions...")
