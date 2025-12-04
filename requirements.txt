@@ -1,0 +1,9 @@
+pandas>=2.0.0
+requests>=2.31.0
+numpy>=1.24.0
+plotly>=5.17.0
+matplotlib>=3.7.0
+dash>=2.14.0
+dash-bootstrap-components>=1.4.2
+mysql-connector-python>=8.1.0
+python-dotenv>=1.0.0
